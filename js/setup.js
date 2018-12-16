@@ -6,7 +6,33 @@ var COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)
 var EYE_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
 
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
+var openPopupButton = document.querySelector('.setup-open');
+var closePopupButton = userDialog.querySelector('.setup-close');
+
+openPopupButton.addEventListener('click', function () {
+  userDialog.classList.remove('hidden');
+});
+
+closePopupButton.addEventListener('click', function () {
+  userDialog.classList.add('hidden');
+});
+
+document.addEventListener('keydown', function (evt) {
+  // Проверяем, что код клавиши равен 27
+  if (evt.keyCode === 27) {
+    userDialog.classList.add('hidden');
+  }
+});
+
+openPopupButton.addEventListener('keydown', function (evt) {
+  // Проверяем, что код клавиши равен 13
+  if (evt.keyCode === 13) {
+    userDialog.classList.remove('hidden');
+  }
+});
+
+
+// userDialog.classList.remove('hidden');
 
 var similarListElement = userDialog.querySelector('.setup-similar-list');
 
