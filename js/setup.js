@@ -4,35 +4,51 @@ var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'К
 var WIZARD_SURNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYE_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var userDialog = document.querySelector('.setup');
-var openPopupButton = document.querySelector('.setup-open');
-var closePopupButton = userDialog.querySelector('.setup-close');
+var userDialogOpen = document.querySelector('.setup-open');
+var userDialogClose = userDialog.querySelector('.setup-close');
 
-openPopupButton.addEventListener('click', function () {
+// Если фокус находится на форме ввода имени, то окно закрываться не должно.
+// var setupUserName = document.querySelector('.setup-user-name');
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
   userDialog.classList.remove('hidden');
-});
+  document.addEventListener('keydown', onPopupEscPress);
+};
 
-closePopupButton.addEventListener('click', function () {
+var closePopup = function () {
   userDialog.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+userDialogOpen.addEventListener('click', function () {
+  openPopup();
 });
 
-document.addEventListener('keydown', function (evt) {
-  // Проверяем, что код клавиши равен 27
-  if (evt.keyCode === 27) {
-    userDialog.classList.add('hidden');
+userDialogOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
   }
 });
 
-openPopupButton.addEventListener('keydown', function (evt) {
-  // Проверяем, что код клавиши равен 13
-  if (evt.keyCode === 13) {
-    userDialog.classList.remove('hidden');
-  }
+userDialogClose.addEventListener('click', function () {
+  closePopup();
 });
 
-
-// userDialog.classList.remove('hidden');
+userDialogClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
 
 var similarListElement = userDialog.querySelector('.setup-similar-list');
 
@@ -67,3 +83,33 @@ for (var i = 0; i < wizards.length; i++) {
 similarListElement.appendChild(fragment);
 
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+/*
+Изменение цвета мантии персонажа по нажатию.
+Цвет мантии .setup-wizard .wizard-coat должен обновляться по нажатию на неё.
+Цвет мантии задаётся через изменение инлайнового CSS-свойства fill для элемента.
+Цвет должен сменяться произвольным образом на один из следующих цветов:
+
+rgb(101, 137, 164)
+rgb(241, 43, 107)
+rgb(146, 100, 161)
+rgb(56, 159, 117)
+rgb(215, 210, 55)
+rgb(0, 0, 0)
+*/
+
+var thumbnails = document.querySelectorAll('.wizard-coat');
+var wizardPicture = document.querySelector('.setup-wizard');
+var fullPicture = wizardPicture.querySelector('.wizard-coat');
+
+var addThumbnailClickHandler = function (thumbnail, picture) {
+  thumbnail.addEventListener('click', function () {
+    fullPicture.style.fill = picture;
+    // console.log(thumbnail);
+    // console.log(picture);
+  });
+};
+
+for (i = 1; i < thumbnails.length; i++) {
+  addThumbnailClickHandler(thumbnails[i], COAT_COLOR[i]);
+}
