@@ -98,18 +98,41 @@ rgb(215, 210, 55)
 rgb(0, 0, 0)
 */
 
-var thumbnails = document.querySelectorAll('.wizard-coat');
+var coatThumbnails = document.querySelectorAll('.wizard-coat');
 var wizardPicture = document.querySelector('.setup-wizard');
-var fullPicture = wizardPicture.querySelector('.wizard-coat');
+var coatFullPicture = wizardPicture.querySelector('.wizard-coat');
 
-var addThumbnailClickHandler = function (thumbnail, picture) {
-  thumbnail.addEventListener('click', function () {
-    fullPicture.style.fill = picture;
-    // console.log(thumbnail);
-    // console.log(picture);
+var addThumbnailClickHandler = function (coatThumbnail, coatPicture) {
+  coatThumbnail.addEventListener('click', function () {
+    coatFullPicture.style.fill = coatPicture;
   });
 };
 
-for (i = 1; i < thumbnails.length; i++) {
-  addThumbnailClickHandler(thumbnails[i], COAT_COLOR[i]);
+for (i = 1; i < coatThumbnails.length; i++) {
+  addThumbnailClickHandler(coatThumbnails[i], COAT_COLOR[i]);
+}
+
+/*
+Изменение цвета глаз персонажа по нажатию.
+Цвет глаз волшебника меняется по нажатию на блок .setup-wizard .wizard-eyes.
+Возможные варианты цвета глаз персонажа:
+
+black
+red
+blue
+yellow
+green
+*/
+
+var eyeThumbnails = document.querySelectorAll('.wizard-eyes');
+var eyeFullPicture = wizardPicture.querySelector('.wizard-eyes');
+
+addThumbnailClickHandler = function (eyeThumbnail, eyePicture) {
+  eyeThumbnail.addEventListener('click', function () {
+    eyeFullPicture.style.fill = eyePicture;
+  });
+};
+
+for (i = 1; i < eyeThumbnails.length; i++) {
+  addThumbnailClickHandler(eyeThumbnails[i], EYE_COLOR[i]);
 }
