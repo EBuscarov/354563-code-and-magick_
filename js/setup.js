@@ -1,9 +1,10 @@
 'use strict';
 
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var WIZARD_SURNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var EYE_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
@@ -60,9 +61,9 @@ var wizards = [];
 for (i = 0; i < 4; i++) {
   wizards.push({
     name: WIZARD_NAMES[Math.floor(Math.random() * WIZARD_NAMES.length)],
-    surname: WIZARD_SURNAME[Math.floor(Math.random() * WIZARD_SURNAME.length)],
-    coatColor: COAT_COLOR[Math.floor(Math.random() * COAT_COLOR.length)],
-    eyeColor: EYE_COLOR[Math.floor(Math.random() * EYE_COLOR.length)]
+    surname: WIZARD_SURNAMES[Math.floor(Math.random() * WIZARD_SURNAMES.length)],
+    coatColor: COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)],
+    eyeColor: EYE_COLORS[Math.floor(Math.random() * EYE_COLORS.length)]
   });
 }
 
@@ -109,7 +110,7 @@ var addThumbnailClickHandler = function (coatThumbnail, coatPicture) {
 };
 
 for (i = 1; i < coatThumbnails.length; i++) {
-  addThumbnailClickHandler(coatThumbnails[i], COAT_COLOR[i]);
+  addThumbnailClickHandler(coatThumbnails[i], COAT_COLORS[i]);
 }
 
 /*
@@ -134,5 +135,27 @@ addThumbnailClickHandler = function (eyeThumbnail, eyePicture) {
 };
 
 for (i = 1; i < eyeThumbnails.length; i++) {
-  addThumbnailClickHandler(eyeThumbnails[i], EYE_COLOR[i]);
+  addThumbnailClickHandler(eyeThumbnails[i], EYE_COLORS[i]);
 }
+
+/*
+Изменение цвета фаерболов по нажатию.
+Цвет задаётся через изменение фона у блока .setup-fireball-wrap.
+
+Для того, чтобы на сервер отправились правильные данные, при изменении
+параметров персонажа должно изменяться и значение соответствующего скрытого инпута.
+*/
+
+var fireballSetup = document.querySelector('.setup-fireball-wrap');
+
+var addFireballClickHandler = function (fireballColor) {
+  fireballSetup.addEventListener('click', function () {
+    fireballSetup.style.background = fireballColor;
+  });
+};
+
+for (i = 0; i < FIREBALL_COLORS.length; i++) {
+  addFireballClickHandler(FIREBALL_COLORS[i]);
+}
+
+// var fireballSetupForm = fireballSetupWrap.querySelector('input');
