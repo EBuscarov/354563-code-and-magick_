@@ -12,12 +12,18 @@ var userDialog = document.querySelector('.setup');
 var userDialogOpen = document.querySelector('.setup-open');
 var userDialogClose = userDialog.querySelector('.setup-close');
 
-// Если фокус находится на форме ввода имени, то окно закрываться не должно.
-// var setupUserName = document.querySelector('.setup-user-name');
+var getRandomArray = function (array) {
+  var indexArray = Math.floor(Math.random() * array.length);
+  return array[indexArray];
+};
+
+var formUserName = document.querySelector('.setup-user-name');
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
+    if (evt.target !== formUserName) {
+      closePopup();
+    }
   }
 };
 
@@ -31,9 +37,7 @@ var closePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-userDialogOpen.addEventListener('click', function () {
-  openPopup();
-});
+userDialogOpen.addEventListener('click', openPopup);
 
 userDialogOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -41,9 +45,7 @@ userDialogOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-userDialogClose.addEventListener('click', function () {
-  closePopup();
-});
+userDialogClose.addEventListener('click', closePopup);
 
 userDialogClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -60,10 +62,11 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
 var wizards = [];
 for (i = 0; i < 4; i++) {
   wizards.push({
-    name: WIZARD_NAMES[Math.floor(Math.random() * WIZARD_NAMES.length)],
-    surname: WIZARD_SURNAMES[Math.floor(Math.random() * WIZARD_SURNAMES.length)],
-    coatColor: COAT_COLORS[Math.floor(Math.random() * COAT_COLORS.length)],
-    eyeColor: EYE_COLORS[Math.floor(Math.random() * EYE_COLORS.length)]
+    // name: WIZARD_NAMES[Math.floor(Math.random() * WIZARD_NAMES.length)],
+    name: getRandomArray(WIZARD_NAMES),
+    surname: getRandomArray(WIZARD_SURNAMES),
+    coatColor: getRandomArray(COAT_COLORS),
+    eyeColor: getRandomArray(EYE_COLORS)
   });
 }
 
@@ -148,14 +151,16 @@ for (i = 1; i < eyeThumbnails.length; i++) {
 
 var fireballSetup = document.querySelector('.setup-fireball-wrap');
 
-var addFireballClickHandler = function (fireballColor) {
+var addFireballClickHandler = function () {
   fireballSetup.addEventListener('click', function () {
-    fireballSetup.style.background = fireballColor;
+    fireballSetup.style.background = getRandomArray(FIREBALL_COLORS);
   });
 };
 
-for (i = 0; i < FIREBALL_COLORS.length; i++) {
-  addFireballClickHandler(FIREBALL_COLORS[i]);
-}
+addFireballClickHandler(FIREBALL_COLORS);
+
+// for (i = 0; i < FIREBALL_COLORS.length; i++) {
+// addFireballClickHandler(FIREBALL_COLORS[i]);
+// }
 
 // var fireballSetupForm = fireballSetupWrap.querySelector('input');
